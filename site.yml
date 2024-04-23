@@ -14,14 +14,23 @@
 - hosts: web_servers
   become: true
   tasks:
-  -  name: install php and apache for ubuntu servers
-     tags: ubuntu,web,apache
-     apt:
-      name:
+  - name: install php and apache for ubuntu servers
+    tags: ubuntu,web,apache
+    apt:
+       name:
         - apache2
         - libapache2-mod-php
-      state: latest
-     when: ansible_distribution == "Ubuntu"
+       state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: copy default html file for site
+    tags: apache,web
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
 
 - hosts: db_servers
   become: true

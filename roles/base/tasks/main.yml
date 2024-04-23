@@ -1,0 +1,5 @@
+- name: add ssh key for renars
+  tags: always
+  authorized_key:
+    user: renars
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8RfWumARD6dlZY/wBSK0V1+ojdgUVfcAbmcl8PRFxz Ansiblim"

@@ -1,0 +1,38 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates for  ubuntu servers
+    tags: always
+    apt:
+      upgrade: dist
+      update-cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create renars user
+    tags: always
+    user:
+      name: renars
+      groups: root
+
+  - name: add ssh key for renars
+    tags: always
+    authorized_key:
+      user: renars
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8RfWumARD6dlZY/wBSK0V1+ojdgUVfcAbmcl8PRFxz Ansiblim"
+
+  - name: add sudoers file for simone
+    tags: always
+    copy:
+      src: sudoer_renars
+      dest: /etc/sudoers.d/renars
+      owner: root
+      group: root
+      mode: 0440
+
